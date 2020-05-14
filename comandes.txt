@@ -1,0 +1,16 @@
+Per entrar al entorn (env)
+des de cloudshell_open-> source env/bin/activate
+
+Per executar debug:
+des de cov-distance -> python3 main.python3
+
+Per fer el deploy:
+gcloud app deploy
+
+
+
+Per afegir les credencials:
+export GOOGLE_APPLICATION_CREDENTIALS=~/cloudshell_open/cov-distance/key.json
+
+Per comprovar les credencials:
+echo $GOOGLE_APPLICATION_CREDENTIALS
