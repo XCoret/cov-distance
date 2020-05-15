@@ -1,63 +1,51 @@
-import argparse
-import io
-import os
 from google.cloud import vision
 from google.cloud.vision import types
-from PIL import Image, ImageDraw
+import cv2 as cv
+import numpy as np
+import os
+
+
+print('Visio Loaded...')
 
 def drawBorders(image, bounding,color, caption='', score =0):
-    width,height = image.size
-    draw = ImageDraw(image)
-    draw.polygon([
-        bounding.normalized_vertices[0].x * width,
-        bounding.normalized_vertices[0].y * height,
-        bounding.normalized_vertices[1].x * width,
-        bounding.normalized_vertices[1].y * height,
-        bounding.normalized_vertices[2].x * width,
-        bounding.normalized_vertices[2].y * height,
-        bounding.normalized_vertices[3].x * width,
-        bounding.normalized_vertices[3].y * height], fill=None, outline=color)
-    font_size = 12
+    height,width,_ = image.shape
 
-    draw.text((
-        bounding.normalized_vertices[0].x * width,
-        bounding.normalized_vertices[0].y * height), text=caption,fill=color)
 
-    draw.text((bounding.normalized_vertices[0].x*width,
-                bounding.normalized_vertices[0].y*height +20), text='Confidence Score:{0:.2f}%'.format(score),fill=color)
+    p1 = [int(bounding.normalized_vertices[0].x * width), int(bounding.normalized_vertices[0].y * height)]
+    p2 = [int(bounding.normalized_vertices[2].x * width), int(bounding.normalized_vertices[2].y * height)]
     
+    image = cv.rectangle(image,(p1[0],p1[1]),(p2[0],p2[1]),color,5)
+
+    fontScale = 1
+    thickness = 2
+    fontColor = (0,0,0)
+    image =cv.putText(image,caption+'{0:.2f}%'.format(score),(p1[0],p1[1]),cv.FONT_HERSHEY_SIMPLEX,fontScale,fontColor,thickness,cv.LINE_AA)
+
+    #image =cv.putText(image,'Confidence Score:{0:.2f}%'.format(score),(p1[0],p1[1]+20),cv.FONT_HERSHEY_SIMPLEX,fontScale,color,thickness,cv.LINE_AA)
+        
     return image
 
-def localize_objects(path):
+def localize_objects(path_in,path_out):
     client = vision.ImageAnnotatorClient()
 
-    with open(path, 'rb') as image_file:
+    with open(path_in, 'rb') as image_file:
         content = image_file.read()
     image = vision.types.Image(content=content)
 
     objects = client.object_localization(
         image=image).localized_object_annotations
-    vects = []
+    
     print('Number of objects found: {}'.format(len(objects)))
     nObjects = 0
     text=''
-    vects = []
 
 
-    
+    im = cv.imread(path_in)
     for object_ in objects:
-        if object_.name == 'Person':
-            nObjects+=1
-            person=[]
-            #print('\n{} (confidence: {})'.format(object_.name, object_.score))
-            
-            for vertex in object_.bounding_poly.normalized_vertices:
-                person.append([vertex.x, vertex.y])
-                text+=' - ({}, {})'.format(vertex.x, vertex.y)
-            vects.append(person)
-
-    drawBorders(image, bounding,color, caption='', score =0):
-
+        if object_.name == 'Person' :#and object_.score > 0.7:
+            nObjects+=1            
+            im = drawBorders(im, object_.bounding_poly, (0,127,255), caption=('Person: {}'.format(nObjects)), score =object_.score)
+    
+    cv.imwrite(path_out,im)
 
     return nObjects,text
-

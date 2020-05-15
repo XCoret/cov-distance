@@ -12,32 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# [START gae_python37_app]
-from flask import Flask
-from flask import render_template
-import os
+# [START gae_python38_app]
+from flask import Flask, render_template
 import visio as v
-
-
-IMAGE_FOLDER = os.path.join('static','resources')
-
+import os
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r"key.json"
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
 app = Flask(__name__)
+
+IMAGE_FOLDER = os.path.join('static','resources')
+
+FRAME_FOLDER = os.path.join('static','resources/TownCentreXVID_frames')
+OUTPUT_FOLDER = os.path.join('static','resources/output')
 app.config['UPLOAD_FOLDER'] = IMAGE_FOLDER
 
 @app.route('/')
 def hello():
-    
-    input_image = os.path.join(os.path.join('static','resources'),'input.jpg') # 'static/resources/input.jpg'
-    nObjects= 0
-    text=''
-    nObjects,text = v.localize_objects(os.path.join(os.path.join('static','resources'),'input.jpg'))
-    
-    output_image = os.path.join(os.path.join('static','resources'),'output.jpg')
+	input_image = os.path.join(FRAME_FOLDER,'TownCentreXVID 01.jpg') # 'static/resources/input.jpg'
+	nObjects= 0
+	text="sdaa"
+	output_image = os.path.join(OUTPUT_FOLDER,'TownCentreXVID 01.jpg') # 'static/resources/input.jpg'
 
-    """Return a friendly HTTP greeting."""
-    return render_template('index.html', inputimg = input_image,outputimg = output_image, numberObjects=nObjects, report=text)
+	nObjects,text = v.localize_objects(input_image,output_image)
+	"""Return a friendly HTTP greeting."""
+	return render_template('index.html', inputimg = input_image,outputimg = output_image, numberObjects=nObjects, report=text)
 
 
 if __name__ == '__main__':
@@ -45,4 +44,4 @@ if __name__ == '__main__':
     # Engine, a webserver process such as Gunicorn will serve the app. This
     # can be configured by adding an `entrypoint` to app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
-# [END gae_python37_app]
+# [END gae_python38_app]

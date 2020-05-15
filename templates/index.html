@@ -16,7 +16,7 @@
     			<div id="input">
 		            <h3>Input</h3>
 		            <figure>
-		            <img src ="{{inputimg}}"/>
+		            <a href="{{inputimg}}"><img src ="{{inputimg}}"/></a>
 		            </figure>
 		        </div>
     		</li>
@@ -25,7 +25,7 @@
 		        <div id="output">
 		            <h3>Output</h3>
 		            <figure>
-		            <img src ="{{outputimg}}"/>
+		            <a href="{{outputimg}}"><img src ="{{outputimg}}"/></a>
 		            </figure>
 		        </div>
 	    	</li>
@@ -40,6 +40,7 @@
     </main>
 </body>
 <style>
+
 /* ---- color scheme ----*/
 :root {
   --text-color: #333;
@@ -99,7 +100,7 @@ main{
   
 }
 header, main section{
-  width:70%;
+  width:80%;
   margin:0px auto;
   padding: 50px 0px;
   border-bottom:dashed 1px var(--accent-color);
@@ -111,7 +112,7 @@ header, main section{
   justify-content:space-between;
 }
 #images ul li{
-  width: 30%;
+  width: 45%;
   margin: 0px  auto;
   box-shadow:0px 0px 5px 2px #000;
   
@@ -121,6 +122,7 @@ header, main section{
   padding:0px;
   margin:0px;
 }
+
 
 </style>
 
