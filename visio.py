@@ -25,6 +25,20 @@ def drawBorders(image, bounding,color, caption='', score =0):
         
     return image
 
+def getPersons(img):
+    client = vision.ImageAnnotatorClient()
+
+    image = vision.types.Image(content = cv.imencode('.jpg',img))
+
+    objects = client.object_localization(image=image).localized_object_annotations
+
+    persons=[]
+    for obj in opbject:
+        if obj.name ==  'Person':
+            persons.append(obj)
+    return persons
+
+
 def localize_objects(path_in,path_out):
     client = vision.ImageAnnotatorClient()
 
@@ -45,7 +59,7 @@ def localize_objects(path_in,path_out):
         if object_.name == 'Person' :#and object_.score > 0.7:
             nObjects+=1            
             im = drawBorders(im, object_.bounding_poly, (0,127,255), caption=('Person: {}'.format(nObjects)), score =object_.score)
-    
+
     cv.imwrite(path_out,im)
 
     return nObjects,text

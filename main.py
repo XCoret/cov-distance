@@ -13,9 +13,11 @@
 # limitations under the License.
 
 # [START gae_python38_app]
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 import visio as v
 import os
+from camara import Camara
+
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r"key.json"
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
@@ -23,20 +25,38 @@ app = Flask(__name__)
 
 IMAGE_FOLDER = os.path.join('static','resources')
 
-FRAME_FOLDER = os.path.join('static','resources/TownCentreXVID_frames')
-OUTPUT_FOLDER = os.path.join('static','resources/output')
+#FRAME_FOLDER = os.path.join('static','resources/TownCentreXVID_frames')
+#OUTPUT_FOLDER = os.path.join('static','resources/output')
+
+FRAME_FOLDER = 'static/resources/TownCentreXVID_frames/'
+OUTPUT_FOLDER = 'static/resources/output/'
 app.config['UPLOAD_FOLDER'] = IMAGE_FOLDER
 
-@app.route('/')
-def hello():
-	input_image = os.path.join(FRAME_FOLDER,'TownCentreXVID 01.jpg') # 'static/resources/input.jpg'
-	nObjects= 0
-	text="sdaa"
-	output_image = os.path.join(OUTPUT_FOLDER,'TownCentreXVID 01.jpg') # 'static/resources/input.jpg'
+input_image = FRAME_FOLDER+'TownCentreXVID 01.jpg' # 'static/resources/input.jpg'
 
-	nObjects,text = v.localize_objects(input_image,output_image)
+output_image = OUTPUT_FOLDER+'TownCentreXVID 01.jpg' # 'static/resources/input.jpg'
+
+nObjects= 0
+text="sdaa"
+
+@app.route('/')
+def index():
 	"""Return a friendly HTTP greeting."""
 	return render_template('index.html', inputimg = input_image,outputimg = output_image, numberObjects=nObjects, report=text)
+    
+def gen(cam,i):
+    while True:
+        frame = cam.get_frame()[i]
+        yield (b'--frame\r\n'
+        b'Content-Type: image/jpeg\r\n\r\n'+frame+b'\r\n\r\n')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen(Camara(),0),mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/homografia_feed')
+def homografia_feed():
+    return Response(gen(Camara(),1),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 if __name__ == '__main__':

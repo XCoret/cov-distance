@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
 	<title>CovDistance</title>
-    
 </head>
 <body>
 	<header>
@@ -16,7 +15,7 @@
     			<div id="input">
 		            <h3>Input</h3>
 		            <figure>
-		            <a href="{{inputimg}}"><img src ="{{inputimg}}"/></a>
+		            <a href="{{inputimg}}"><img src ="{{url_for('video_feed')}}"/></a>
 		            </figure>
 		        </div>
     		</li>
@@ -25,12 +24,12 @@
 		        <div id="output">
 		            <h3>Output</h3>
 		            <figure>
-		            <a href="{{outputimg}}"><img src ="{{outputimg}}"/></a>
+		            <a href="{{outputimg}}"><img  src ="{{url_for('homografia_feed')}}"/></a>
 		            </figure>
 		        </div>
 	    	</li>
     	</ul>
-        <input type="submit" name="submit_button" value="Submit">
+      <a href="#" id="submit_button" >Submit!</a>
 
     </section>
     <section id="report">
@@ -65,7 +64,7 @@ body {
   margin: 0px;
   padding: 0px;
 }
-input[type="submit"]{
+#submit_button{
     background-color:var(--accent-color);
     border: solid 1px var(--text-color);
     color: var(--background-color);
@@ -74,9 +73,10 @@ input[type="submit"]{
     text-decoration: none;
     display: block;
     margin: 0px auto;
+    max-width:20%;
     cursor: pointer;
 }
-input[type="submit"]:hover{
+#submit_button:hover{
     background-color:var(--background-color);
     border: solid 1px var(--text-color);
     color: var(--accent-color);
