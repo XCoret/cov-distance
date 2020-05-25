@@ -1,71 +1,77 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-	<title>CovDistance</title>
-</head>
-<body>
-	<header>
-		<h1>Control de distancia de seguretat en situació de Pandèmia</h1>
-	</header>
-    <main>
-    <section id="images">
-    	<ul>
-    		<li>
-    			<div id="input">
-		            <h3>Input</h3>
-		            <figure>
-		            <a href="{{inputimg}}"><img src ="{{url_for('video_feed')}}"/></a>
-		            </figure>
-		        </div>
-    		</li>
-            
-	        <li>
-		        <div id="output">
-		            <h3>Output</h3>
-		            <figure>
-		            <a href="{{outputimg}}"><img  src ="{{url_for('homografia_feed')}}"/></a>
-		            </figure>
-		        </div>
-	    	</li>
-    	</ul>
-      <a href="#" id="submit_button" >Submit!</a>
 
+<head>
+  <meta charset="UTF-8">
+  <title>CovDistance</title>
+</head>
+
+<body>
+  <header>
+    <h1>Control de distancia de seguretat en situació de Pandèmia</h1>
+  </header>
+  <main>
+    <section id="images">
+      <ul>
+        <li>
+          <div id="input">
+            <h3>Input</h3>
+            <figure>
+              <a href=""><img src="{{ url_for('video_feed') }}" /></a>
+            </figure>
+          </div>
+        </li>
+
+        <li>
+          <div id="output">
+            <h3>Output</h3>
+            <figure>
+              <a href=""><img src="{{ url_for('out_feed') }}" /></a>
+            </figure>
+          </div>
+        </li>
+      </ul>
     </section>
     <section id="report">
-    	<h3>Report: {{numberObjects}} Persones</h3>
-        <p id="reportContent">{{report}}</p>
+      <h3>Report: 0 Persones</h3>
+      <p id="reportContent">Report Content</p>
     </section>
-    </main>
+  </main>
 </body>
 <style>
+  /* ---- color scheme ----*/
+  :root {
+    --text-color: #333;
+    --accent-color: #FF7F00;
+    --background-color: #ffffff;
+    --cover-color: rgba(255, 255, 255, 0.75);
+  }
 
-/* ---- color scheme ----*/
-:root {
-  --text-color: #333;
-  --accent-color:#FF7F00;
-  --background-color:#ffffff;
-  --cover-color:rgba(255,255,255,0.75);
-}
-html {
-  box-sizing: border-box;
-}
-*, *:before, *:after {
-  box-sizing: inherit;
-  font-family: 'Open Sans';
-  color:var(--text-color);
-  
-}
-*::selection { 
-background-color: var(--accent-color)  ;
-  color:var(--background-color);
-}
-body {
-  margin: 0px;
-  padding: 0px;
-}
-#submit_button{
-    background-color:var(--accent-color);
+  html {
+    box-sizing: border-box;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+    font-family: 'Open Sans';
+    color: var(--text-color);
+
+  }
+
+  *::selection {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+  }
+
+  body {
+    margin: 0px;
+    padding: 0px;
+  }
+
+  #submit_button {
+    background-color: var(--accent-color);
     border: solid 1px var(--text-color);
     color: var(--background-color);
     padding: 5px 10px;
@@ -73,57 +79,63 @@ body {
     text-decoration: none;
     display: block;
     margin: 0px auto;
-    max-width:20%;
+    max-width: 20%;
     cursor: pointer;
-}
-#submit_button:hover{
-    background-color:var(--background-color);
+  }
+
+  #submit_button:hover {
+    background-color: var(--background-color);
     border: solid 1px var(--text-color);
     color: var(--accent-color);
-}
-a{
-  color:var(--accent-color);
-  text-decoration:none;
-}
-a:hover{
-  text-decoration:underline;
-}
-ul{
-  list-style:none;
-  padding:0px;
-}
-img{
-  max-width: 100%;
-  
-}
-main{
-  
-}
-header, main section{
-  width:80%;
-  margin:0px auto;
-  padding: 50px 0px;
-  border-bottom:dashed 1px var(--accent-color);
-}
+  }
 
-#images ul{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:space-between;
-}
-#images ul li{
-  width: 45%;
-  margin: 0px  auto;
-  box-shadow:0px 0px 5px 2px #000;
-  
-}
-#images ul li figure{
-  width:100%;
-  padding:0px;
-  margin:0px;
-}
+  a {
+    color: var(--accent-color);
+    text-decoration: none;
+  }
 
+  a:hover {
+    text-decoration: underline;
+  }
 
+  ul {
+    list-style: none;
+    padding: 0px;
+  }
+
+  img {
+    max-width: 100%;
+
+  }
+
+  main {}
+
+  header,
+  main section {
+    width: 80%;
+    margin: 0px auto;
+    padding: 50px 0px;
+    border-bottom: dashed 1px var(--accent-color);
+  }
+
+  #images ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  #images ul li {
+    width: 45%;
+    margin: 0px auto;
+    box-shadow: 0px 0px 5px 2px #000;
+
+  }
+
+  #images ul li figure {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+  }
 </style>
 
 

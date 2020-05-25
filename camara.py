@@ -1,13 +1,12 @@
 import cv2 as cv
 import visio as v
 import numpy as np
+import visio
 
-RED = [255,0,0]
-GREEN = [0,255,0]
 
 class Camara(object):
-    def __init__(self):
-        self.video = cv.VideoCapture('TownCentreXVID.avi')
+    def __init__(self,src=None):
+        self.video = cv.VideoCapture(src)
         
         self.frame = None
         self.homografia = None
@@ -25,13 +24,14 @@ class Camara(object):
 
             height,width,_ = frame.shape
             limits = np.float32([[width,width,0],[0,height,height],[0,0,0]])
-            self.matriuH,status = cv.findHomography(punts_in,punts_out)
+            self.matriuH = cv.getPerspectiveTransform(punts_in,punts_out)
 
             homografia = cv.warpPerspective(frame,self.matriuH,(width,height))
 
 
-        #codifiquem en jpeg 
-        ret,jpeg = cv.imencode('.jpg',frame)
-        ret,out = cv.imencode('.jpg',homografia)
+        frame = self.frame.copy()
+        persons = visio.getPersons(frame)
+        for person in persons:
+            frame = visio.drawBorders(frame, person.bounding_poly, (0,127,255),score = person.score*100)
 
-        return [jpeg.tobytes(),out.tobytes()]
+        return [frame, homografia]

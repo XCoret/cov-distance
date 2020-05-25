@@ -28,12 +28,12 @@ def drawBorders(image, bounding,color, caption='', score =0):
 def getPersons(img):
     client = vision.ImageAnnotatorClient()
 
-    image = vision.types.Image(content = cv.imencode('.jpg',img))
+    image = vision.types.Image(content = cv.imencode('.jpg',img)[1].tobytes())
 
     objects = client.object_localization(image=image).localized_object_annotations
 
     persons=[]
-    for obj in opbject:
+    for obj in objects:
         if obj.name ==  'Person':
             persons.append(obj)
     return persons
