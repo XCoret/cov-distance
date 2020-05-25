@@ -12,13 +12,15 @@ class covDistance():
         self.perspectiveMatrix = None
 
         self.metres = 5.0
-
+        
         self.punts_in = punts_in
         self.punts_out = punts_out
         self.rescaled = False
 
         self.frame = None
 
+
+    #funcio per trobar els punts de la imatge original a la homografia
     def getPerspectiveCoords(self, p):
         px = (self.perspectiveMatrix[0][0]*p[0] + self.perspectiveMatrix[0][1]*p[1] + self.perspectiveMatrix[0][2]) / ((self.perspectiveMatrix[2][0]*p[0] + self.perspectiveMatrix[2][1]*p[1] + self.perspectiveMatrix[2][2]))
         py = (self.perspectiveMatrix[1][0]*p[0] + self.perspectiveMatrix[1][1]*p[1] + self.perspectiveMatrix[1][2]) / ((self.perspectiveMatrix[2][0]*p[0] + self.perspectiveMatrix[2][1]*p[1] + self.perspectiveMatrix[2][2]))
@@ -76,7 +78,7 @@ class covDistance():
         return image
 
     def calcDistancies(self,pedestrians):
-        resta = abs(self.punts_out[3][1]-self.punts_out[0][1])
+        resta = abs(self.punts_out[3][0]-self.punts_out[2][0])
         res = []
         for p in pedestrians:
             x1 = int((p.bounding_poly.normalized_vertices[2].x - (abs(p.bounding_poly.normalized_vertices[2].x-p.bounding_poly.normalized_vertices[3].x)/2)) * self.frame.shape[1])
@@ -92,7 +94,7 @@ class covDistance():
                     distanciaPixels = math.sqrt((x)**2 + (y)**2)
                     distanciaMetres = ((distanciaPixels * self.metres) / resta)
                     
-                    if distanciaMetres <1.2:
+                    if distanciaMetres < 2:
                         res.append([p,p2,distanciaMetres])
         return res
 
@@ -129,7 +131,8 @@ class covDistance():
                 input_frame = self.drawBox(image=input_frame, bounding=p.bounding_poly, color=GREEN, caption='', score=0)
                 bird_eye = self.drawBirdEye(bird_eye, p.bounding_poly, GREEN)
             for c in closeOnes:
-                if c[2]<1:
+
+                if c[2] < 1.5:
                     color=RED
                 else:
                     color=ORANGE
@@ -143,18 +146,17 @@ class covDistance():
 
                 x2 = int((c[1].bounding_poly.normalized_vertices[2].x - (abs(c[1].bounding_poly.normalized_vertices[2].x-c[1].bounding_poly.normalized_vertices[3].x)/2)) * self.frame.shape[1])
                 y2 = int((c[1].bounding_poly.normalized_vertices[2].y ) * self.frame.shape[0])
-
+                
                 p1 = (x1,y1)
                 p2 = (x2,y2)            
                 bird_eye = cv.line(bird_eye, self.getPerspectiveCoords(p1), self.getPerspectiveCoords(p2), color, 1)
 
-                x1 = int((c[0].bounding_poly.normalized_vertices[2].x - (abs(c[0].bounding_poly.normalized_vertices[0].x-c[0].bounding_poly.normalized_vertices[3].x)/2)) * self.frame.shape[1])
-                y1 = int((c[0].bounding_poly.normalized_vertices[2].y - (abs(c[0].bounding_poly.normalized_vertices[0].y-c[0].bounding_poly.normalized_vertices[1].y)/2)) * self.frame.shape[0])
-
-
+                x1 = int((c[0].bounding_poly.normalized_vertices[2].x - (abs(c[0].bounding_poly.normalized_vertices[2].x-c[0].bounding_poly.normalized_vertices[3].x)/2)) * self.frame.shape[1])
+                y1 = int((c[0].bounding_poly.normalized_vertices[2].y - (abs(c[0].bounding_poly.normalized_vertices[2].y-c[0].bounding_poly.normalized_vertices[1].y)/2)) * self.frame.shape[0])
+                
                 x2 = int((c[1].bounding_poly.normalized_vertices[2].x - (abs(c[1].bounding_poly.normalized_vertices[2].x-c[1].bounding_poly.normalized_vertices[3].x)/2)) * self.frame.shape[1])
                 y2 = int((c[1].bounding_poly.normalized_vertices[2].y - (abs(c[1].bounding_poly.normalized_vertices[2].y-c[1].bounding_poly.normalized_vertices[1].y)/2)) * self.frame.shape[0])
-
+                
                 p1 = (x1,y1)
                 p2 = (x2,y2)
                 input_frame = cv.line(input_frame, p1, p2, color, 1)
