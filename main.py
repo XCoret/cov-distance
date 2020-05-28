@@ -15,18 +15,19 @@ def index():
     return render_template('index.html',message = "Hello Flask!")
 
 def gen(cam,i):
+    iterador = 0;
     while True:
-        frame = cam.get_frame()[i]
+        if iterador %10==0:
+            frame = cam.get_frame()[i]
 
-        frame = cv.imencode('.jpg',frame)[1].tobytes()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n'+frame+b'\r\n\r\n')
+            frame = cv.imencode('.jpg',frame)[1].tobytes()
+            yield (b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n'+frame+b'\r\n\r\n')
    
 
 @app.route('/video_feed')
 def video_feed():
     video_path = get_blob('TownCentreXVID_short.mp4')
-    # video_path = storage.child('{}/{}'.format(os.environ.get('GCP_BUCKET_NAME'),'TownCentreXVID_short.mp4'))
     return Response(gen(VideoCamera(video_path), 0), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
