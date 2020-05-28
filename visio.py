@@ -56,10 +56,10 @@ def drawBox(image, bounding, color, caption='', score =0):
     p1 = [int(bounding.normalized_vertices[0].x * width), int(bounding.normalized_vertices[0].y * height)]
     p2 = [int(bounding.normalized_vertices[2].x * width), int(bounding.normalized_vertices[2].y * height)]
     
-    image = cv.rectangle(image,(p1[0],p1[1]),(p2[0],p2[1]),color,2)
+    image = cv.rectangle(image,(p1[0],p1[1]),(p2[0],p2[1]),color,3)
 
-    fontScale = 0.35
-    thickness = 2
+    fontScale = 0.5
+    thickness = 3
     fontColor = (0,0,0)
     if score!=0:
         image = cv.putText(image,caption+'{0:.2f}m'.format(score),(int((bounding.normalized_vertices[0].x -((bounding.normalized_vertices[1].x-bounding.normalized_vertices[0].x)/2) )* width), int(bounding.normalized_vertices[0].y * height)),cv.FONT_HERSHEY_SIMPLEX,fontScale,fontColor,thickness,cv.LINE_AA)
@@ -70,11 +70,10 @@ def drawBox(image, bounding, color, caption='', score =0):
 
 def drawBirdEye(image, bounding, color, punts_in, punts_out, perspectiveMatrix):
     height, width, _ = image.shape
-    x1 = int((bounding.normalized_vertices[2].x - (abs(
-        bounding.normalized_vertices[2].x-bounding.normalized_vertices[3].x)/2)) * width)
+    x1 = int((bounding.normalized_vertices[2].x - (abs( bounding.normalized_vertices[2].x-bounding.normalized_vertices[3].x)/2)) * width)
     y1 = int((bounding.normalized_vertices[2].y) * height)
     p = [x1, y1]
     p = getPerspectiveCoords(perspectiveMatrix,p)
     p2 = getPerspectiveCoords(perspectiveMatrix, (punts_in[0][0], punts_in[0][1]))
-    image = cv.circle(image, (int(p[0]), int(p[1])), 2, color, thickness=2)
+    image = cv.circle(image, (int(p[0]), int(p[1])), 4, color, thickness=2)
     return image

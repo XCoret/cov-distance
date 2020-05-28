@@ -57,8 +57,19 @@ class VideoCamera(object):
             frame = v.drawBox(image=frame, bounding=c[1].bounding_poly,color=color,caption='',score=0)
 
             bird_eye = v.drawBirdEye(bird_eye, c[0].bounding_poly, color, punts_in, punts_out,perspectiveMatrix)
-            bird_eye = v.drawBirdEye(
-                bird_eye, c[1].bounding_poly, color, punts_in, punts_out, perspectiveMatrix)
+            bird_eye = v.drawBirdEye(bird_eye, c[1].bounding_poly, color, punts_in, punts_out, perspectiveMatrix)
+
+            x1 = int((c[0].bounding_poly.normalized_vertices[2].x - (abs(c[0].bounding_poly.normalized_vertices[2].x-c[0].bounding_poly.normalized_vertices[3].x)/2)) * frame.shape[1])
+            y1 = int((c[0].bounding_poly.normalized_vertices[2].y ) * frame.shape[0])
+
+            x2 = int((c[1].bounding_poly.normalized_vertices[2].x - (abs(c[1].bounding_poly.normalized_vertices[2].x-c[1].bounding_poly.normalized_vertices[3].x)/2)) * frame.shape[1])
+            y2 = int((c[1].bounding_poly.normalized_vertices[2].y ) * frame.shape[0])
+            
+            p1 = (x1,y1)
+            p2 = (x2,y2)            
+            bird_eye = cv.line(bird_eye, v.getPerspectiveCoords(perspectiveMatrix, p1), v.getPerspectiveCoords(perspectiveMatrix, p2), color, 2)
+
+
 
             x1 = int((c[0].bounding_poly.normalized_vertices[2].x - (abs(c[0].bounding_poly.normalized_vertices[2].x-c[0].bounding_poly.normalized_vertices[3].x)/2)) * frame.shape[1])
             y1 = int((c[0].bounding_poly.normalized_vertices[2].y - (abs(c[0].bounding_poly.normalized_vertices[2].y-c[0].bounding_poly.normalized_vertices[1].y)/2)) * frame.shape[0])
@@ -68,9 +79,9 @@ class VideoCamera(object):
 
             p1 = (x1,y1)
             p2 = (x2,y2)
-            frame = cv.line(frame, p1, p2, color, 1)
+            frame = cv.line(frame, p1, p2, color, 2)
             center = (int((x1 + x2)/2), int((y1 + y2)/2))
-            frame = cv.putText(frame, '{0:.2f}m'.format( c[2]), center, cv.FONT_HERSHEY_SIMPLEX, 0.4, color, 1, cv.LINE_AA)
+            frame = cv.putText(frame, '{0:.2f}m'.format( c[2]), center, cv.FONT_HERSHEY_SIMPLEX, 1.5, color, 2, cv.LINE_AA)
         
         return [frame, bird_eye]       
 
