@@ -1,6 +1,6 @@
 # Cov-Distance
 
-![alt text](https://raw.githubusercontent.com/XCoret/cov-distance/master/robot.png)
+![alt text](https://raw.githubusercontent.com/XCoret/cov-distance/master/distance.png)
 
 Aplicació web per a detectar si les persones
 que apareixen en un vídeo respecten la
@@ -27,11 +27,11 @@ L'aplicació s'ha desenvolupat dins el Hackathon de l'asignatura de Sistemes Mul
 
 Per al desenvolupament de l'aplicació s'han utilitzat les API de Google Cloud Vision, i Google Cloud Storage, així com una instància de Ubuntu mitjançant Compute Engine.
 
-![alt text](https://raw.githubusercontent.com/XCoret/cov-distance/master/robot.png)
+![alt text](https://raw.githubusercontent.com/XCoret/cov-distance/master/cov_archictecture.png)
 
 
 
 ## Resultats
-
-![alt text](https://raw.githubusercontent.com/XCoret/cov-distance/master/robot.png)
-![alt text](https://raw.githubusercontent.com/XCoret/cov-distance/master/robot.png)
+Demo: [YouTube](https://www.youtube.com/watch?v=kq2AIcvd-cQ)
+![alt text](https://raw.githubusercontent.com/XCoret/cov-distance/master/output.png)
+![alt text](https://raw.githubusercontent.com/XCoret/cov-distance/master/homografia.png)
