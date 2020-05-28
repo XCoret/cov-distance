@@ -110,12 +110,6 @@ class covDistance():
             # Buscar persones en el frame
             pedestrians = self.findPedestrians()
             
-            # Buscar el peus de les persones en la homografia
-            # midaMaxima=self.getPerspectiveCoords((self.frame.shape[1],self.frame.shape[0]))
-            
-
-
-
             # Disenyar el bird-eye
             be_width = int(self.punts_out[1][0]-self.punts_out[0][0])
             be_height = int(self.punts_out[2][1]-self.punts_out[0][1])
