@@ -8,14 +8,15 @@
 
 <body>
   <header>
-    <h1>Control de distancia de seguretat en situació de Pandèmia</h1>
+    <h1>Cov-Distance</h1>
+    <h3>Control de distància de seguretat en situació de pandèmia</h3>
   </header>
   <main>
     <section id="images">
       <ul>
         <li>
           <div id="input">
-            <h3>Input</h3>
+            <h3>Output</h3>
             <figure>
               <a href=""><img src="{{ url_for('video_feed') }}" /></a>
             </figure>
@@ -24,7 +25,7 @@
 
         <li>
           <div id="output">
-            <h3>Output</h3>
+            <h3>Homografia</h3>
             <figure>
               <a href=""><img src="{{ url_for('out_feed') }}" /></a>
             </figure>
@@ -32,13 +33,12 @@
         </li>
       </ul>
     </section>
-    <section id="report">
-      <h3>Report: 0 Persones</h3>
-      <p id="reportContent">Report Content</p>
-    </section>
+
   </main>
 </body>
 <style>
+
+
   /* ---- color scheme ----*/
   :root {
     --text-color: #333;
@@ -64,7 +64,17 @@
     background-color: var(--accent-color);
     color: var(--background-color);
   }
-
+  h1{
+    font-size: 350%;
+    color:#ff7f00;
+    text-shadow: 2px 2px 2px #333;
+  }
+h1::selection{
+  color:#fff;
+}
+  h1,h3{
+    text-align:center;
+  }
   body {
     margin: 0px;
     padding: 0px;
@@ -119,22 +129,26 @@
   }
 
   #images ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: block;
+    /*flex-wrap: wrap;
+    justify-content: space-between;*/
   }
 
   #images ul li {
-    width: 45%;
+    width: 81.3%;
     margin: 0px auto;
     box-shadow: 0px 0px 5px 2px #000;
 
   }
 
-  #images ul li figure {
-    width: 100%;
-    padding: 0px;
-    margin: 0px;
+  #images ul li figure, #images ul li figure a, #images ul li figure a img{
+    padding:0px;
+    margin:0px !important;
+    position: relative;
+    top:1.5px !important;
+
+    bottom:0 !important;
+    
   }
 </style>
 

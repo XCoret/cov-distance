@@ -111,7 +111,7 @@ class covDistance():
             pedestrians = self.findPedestrians()
             
             # Buscar el peus de les persones en la homografia
-            midaMaxima=self.getPerspectiveCoords((self.frame.shape[1],self.frame.shape[0]))
+            # midaMaxima=self.getPerspectiveCoords((self.frame.shape[1],self.frame.shape[0]))
             
 
 
